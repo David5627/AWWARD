@@ -21,3 +21,21 @@ def index(request):
 
 
 
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'awwa/post_detail.html'
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['image', 'title', 'desc', 'link','technologies', 'post_date', 'user']
+    template_name = 'awwa/post_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+
+
+
+
+
