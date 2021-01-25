@@ -34,6 +34,18 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
     
+def search_results(request):
+
+    if 'username' in request.GET and request.GET["username"]:
+        search_term = request.GET.get("username")
+        searched_username = Profile.search_by_username(search_term)
+        message = f"{search_term}"
+
+        return render(request, 'awwa/search.html',{"message":message,"usernames": searched_username})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'awwa/search.html',{"message":message})
 
 
 
